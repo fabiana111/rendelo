@@ -14,25 +14,25 @@ def FA_kiszamol_osszeg(etelek):
             pass
     return osszeg
 
-def FA_mutat_veglegesitett(master, veglegesitett_rendelesek):
-    if not veglegesitett_rendelesek:
+def FA_mutat_veglegesitett(master, veglegesitettRendelesek):
+    if not veglegesitettRendelesek:
         messagebox.showinfo("Összes Rendelés", "Még nem lett rendelés véglegesítve.")
         return
 
     osszesito = "--- Véglegesített Rendelések ---\n\n"
-    teljes_bevetele = 0
+    teljesBevetele = 0
 
-    for rendeles in veglegesitett_rendelesek:
-        etelek_listaja = "\n - ".join(rendeles["etelek"])
+    for rendeles in veglegesitettRendelesek:
+        etelekListaja = "\n - ".join(rendeles["etelek"])
 
         osszesito += f"➡️ Asztal: **{rendeles['asztal']}**\n"
-        osszesito += f"   Tételek:\n - {etelek_listaja}\n"
+        osszesito += f"   Tételek:\n - {etelekListaja}\n"
         osszesito += f"   **Összesen: {rendeles['osszeg']} Ft**\n"
         osszesito += f"🕓 Időpont: {rendeles['idopont']}\n"
         osszesito += "--------------------------------------\n"
-        teljes_bevetele += rendeles['osszeg']
+        teljesBevetele += rendeles['osszeg']
 
-    osszesito += f"\n💰 **Összes bevétel:** {teljes_bevetele} Ft"
+    osszesito += f"\n💰 **Összes bevétel:** {teljesBevetele} Ft"
 
     top = tk.Toplevel(master)
     top.title("Összes Rendelés")

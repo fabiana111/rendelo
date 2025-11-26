@@ -9,7 +9,7 @@ ETLAP = {
     "Desszertek": ["Palacsinta (1000 Ft)", "Somlói galuska (1400 Ft)", "Tiramisu (1600 Ft)"]
 }
 
-veglegesitett_rendelesek = []
+veglegesitettRendelesek = []
 
 
 class FA_RendelesApp:
@@ -17,89 +17,89 @@ class FA_RendelesApp:
         self.master = master
         master.title("🍽️ Éttermi Rendelésfelvevő Demo")
 
-        self.jelenlegi_asztal = tk.StringVar(master)
-        self.jelenlegi_asztal.set("1")
-        self.rendeles_lista = []
+        self.jelenlegiAsztal = tk.StringVar(master)
+        self.jelenlegiAsztal.set("1")
+        self.rendelesLista = []
 
         self.epitsd_gui()
         self.etlap_elemek_hozzaadasa()
 
     def epitsd_gui(self):
-        self.asztal_frame = tk.LabelFrame(self.master, text="Asztalszám")
-        self.asztal_frame.pack(padx=10, pady=5, fill="x")
+        self.asztalFrame = tk.LabelFrame(self.master, text="Asztalszám")
+        self.asztalFrame.pack(padx=10, pady=5, fill="x")
 
-        asztal_label = tk.Label(self.asztal_frame, text="Válassz asztalt:")
-        asztal_label.pack(side="left", padx=5, pady=5)
+        asztalLabel = tk.Label(self.asztalFrame, text="Válassz asztalt:")
+        asztalLabel.pack(side="left", padx=5, pady=5)
 
         asztalok = [str(i) for i in range(1, 11)]
-        self.asztal_menu = tk.OptionMenu(self.asztal_frame, self.jelenlegi_asztal, *asztalok)
-        self.asztal_menu.pack(side="left", padx=5, pady=5)
+        self.asztalMenu = tk.OptionMenu(self.asztalFrame, self.jelenlegiAsztal, *asztalok)
+        self.asztalMenu.pack(side="left", padx=5, pady=5)
 
-        self.etlap_frame = tk.LabelFrame(self.master, text="Étlap")
-        self.etlap_frame.pack(padx=10, pady=5, fill="both", expand=True)
+        self.etlapFrame = tk.LabelFrame(self.master, text="Étlap")
+        self.etlapFrame.pack(padx=10, pady=5, fill="both", expand=True)
 
-        self.kivalasztott_frame = tk.LabelFrame(self.master, text="Kiválasztott Ételek")
-        self.kivalasztott_frame.pack(padx=10, pady=5, fill="both", expand=True)
+        self.kivalasztottFrame = tk.LabelFrame(self.master, text="Kiválasztott Ételek")
+        self.kivalasztottFrame.pack(padx=10, pady=5, fill="both", expand=True)
 
-        self.rendeles_listbox = tk.Listbox(self.kivalasztott_frame, height=8)
-        self.rendeles_listbox.pack(side="left", fill="both", expand=True, padx=5, pady=5)
+        self.rendelesListbox = tk.Listbox(self.kivalasztottFrame, height=8)
+        self.rendelesListbox.pack(side="left", fill="both", expand=True, padx=5, pady=5)
 
-        scrollbar = tk.Scrollbar(self.kivalasztott_frame, orient="vertical")
-        scrollbar.config(command=self.rendeles_listbox.yview)
+        scrollbar = tk.Scrollbar(self.kivalasztottFrame, orient="vertical")
+        scrollbar.config(command=self.rendelesListbox.yview)
         scrollbar.pack(side="right", fill="y")
-        self.rendeles_listbox.config(yscrollcommand=scrollbar.set)
+        self.rendelesListbox.config(yscrollcommand=scrollbar.set)
 
-        torles_gomb = tk.Button(self.kivalasztott_frame, text="Törlés a Rendelésből", command=self._torol_tetel_hivas)
-        torles_gomb.pack(pady=5, padx=5)
+        torlesGomb = tk.Button(self.kivalasztottFrame, text="Törlés a Rendelésből", command=self._torol_tetel_hivas)
+        torlesGomb.pack(pady=5, padx=5)
 
-        self.gombok_frame = tk.Frame(self.master)
-        self.gombok_frame.pack(padx=10, pady=10, fill="x")
+        self.gombokFrame = tk.Frame(self.master)
+        self.gombokFrame.pack(padx=10, pady=10, fill="x")
 
-        veglegesites_gomb = tk.Button(self.gombok_frame, text="✅ Rendelés Véglegesítése",
-                                      command=self._veglegesit_rendeles_hivas, bg="green", fg="white",
-                                      font=("Arial", 10, "bold"))
-        veglegesites_gomb.pack(side="right", padx=5)
+        veglegesitesGomb = tk.Button(self.gombokFrame, text="✅ Rendelés Véglegesítése",
+                                     command=self._veglegesit_rendeles_hivas, bg="green", fg="white",
+                                     font=("Arial", 10, "bold"))
+        veglegesitesGomb.pack(side="right", padx=5)
 
-        info_gomb = tk.Button(self.gombok_frame, text="ℹ️ Összes Rendelés", command=self._mutat_veglegesitett_hivas)
-        info_gomb.pack(side="left", padx=5)
+        infoGomb = tk.Button(self.gombokFrame, text="ℹ️ Összes Rendelés", command=self._mutat_veglegesitett_hivas)
+        infoGomb.pack(side="left", padx=5)
 
     def etlap_elemek_hozzaadasa(self):
         row = 0
         for kategoria, etelek in ETLAP.items():
-            label = tk.Label(self.etlap_frame, text=f"--- {kategoria} ---", font=("Arial", 10, "bold"))
+            label = tk.Label(self.etlapFrame, text=f"--- {kategoria} ---", font=("Arial", 10, "bold"))
             label.grid(row=row, column=0, columnspan=2, pady=5, padx=5, sticky="w")
             row += 1
 
             for etel in etelek:
-                gomb = tk.Button(self.etlap_frame, text=etel,
+                gomb = tk.Button(self.etlapFrame, text=etel,
                                  command=lambda e=etel: self._hozzaad_rendeleshez_hivas(e))
                 gomb.grid(row=row, column=0, columnspan=2, padx=5, pady=2, sticky="ew")
                 row += 1
 
     def _hozzaad_rendeleshez_hivas(self, etel):
-        self.rendeles_lista = FA_hozzaad_tetel(self.rendeles_lista, self.rendeles_listbox, etel)
+        self.rendelesLista = FA_hozzaad_tetel(self.rendelesLista, self.rendelesListbox, etel)
 
     def _torol_tetel_hivas(self):
-        self.rendeles_lista = FA_torol_tetel(self.rendeles_lista, self.rendeles_listbox)
+        self.rendelesLista = FA_torol_tetel(self.rendelesLista, self.rendelesListbox)
 
     def _veglegesit_rendeles_hivas(self):
-        global veglegesitett_rendelesek
+        global veglegesitettRendelesek
 
-        siker, uj_lista, uj_asztal = FA_veglegesit_rendeles(
-            self.rendeles_lista,
-            self.jelenlegi_asztal,
-            self.rendeles_listbox,
-            veglegesitett_rendelesek
+        siker, ujLista, ujAsztal = FA_veglegesit_rendeles(
+            self.rendelesLista,
+            self.jelenlegiAsztal,
+            self.rendelesListbox,
+            veglegesitettRendelesek
         )
 
         if siker:
-            self.rendeles_lista = uj_lista
-            self.rendeles_listbox.delete(0, tk.END)
-            self.jelenlegi_asztal.set(uj_asztal)
+            self.rendelesLista = ujLista
+            self.rendelesListbox.delete(0, tk.END)
+            self.jelenlegiAsztal.set(ujAsztal)
 
     def _mutat_veglegesitett_hivas(self):
-        global veglegesitett_rendelesek
-        FA_mutat_veglegesitett(self.master, veglegesitett_rendelesek)
+        global veglegesitettRendelesek
+        FA_mutat_veglegesitett(self.master, veglegesitettRendelesek)
 
 
 if __name__ == "__main__":

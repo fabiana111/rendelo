@@ -4,46 +4,46 @@ from FA_calculate import FA_kiszamol_osszeg
 from datetime import datetime
 
 
-def FA_hozzaad_tetel(rendeles_lista, rendeles_listbox, etel):
-    rendeles_lista.append(etel)
-    rendeles_listbox.insert(tk.END, etel)
-    rendeles_listbox.itemconfig(tk.END, {'bg': 'lightblue'})
-    return rendeles_lista
+def FA_hozzaad_tetel(rendelesLista, rendelesListbox, etel):
+    rendelesLista.append(etel)
+    rendelesListbox.insert(tk.END, etel)
+    rendelesListbox.itemconfig(tk.END, {'bg': 'lightblue'})
+    return rendelesLista
 
 
-def FA_torol_tetel(rendeles_lista, rendeles_listbox):
+def FA_torol_tetel(rendelesLista, rendelesListbox):
     try:
-        kivalasztott_index = rendeles_listbox.curselection()[0]
-        tetel_neve = rendeles_listbox.get(kivalasztott_index)
-        rendeles_listbox.delete(kivalasztott_index)
+        kivalasztottIndex = rendelesListbox.curselection()[0]
+        tetelNeve = rendelesListbox.get(kivalasztottIndex)
+        rendelesListbox.delete(kivalasztottIndex)
 
-        if tetel_neve in rendeles_lista:
-            rendeles_lista.remove(tetel_neve)
-        return rendeles_lista
+        if tetelNeve in rendelesLista:
+            rendelesLista.remove(tetelNeve)
+        return rendelesLista
 
     except IndexError:
         messagebox.showwarning("Figyelem", "Kérlek, válassz ki egy tételt a törléshez!")
-        return rendeles_lista
+        return rendelesLista
 
 
-def FA_veglegesit_rendeles(rendeles_lista, jelenlegi_asztal, rendeles_listbox, veglegesitett_rendelesek):
-    asztal = jelenlegi_asztal.get()
-    rendelt_etelek = rendeles_lista.copy()
+def FA_veglegesit_rendeles(rendelesLista, jelenlegiAsztal, rendelesListbox, veglegesitettRendelesek):
+    asztal = jelenlegiAsztal.get()
+    rendeltRtelek = rendelesLista.copy()
 
-    if not rendelt_etelek:
+    if not rendeltRtelek:
         messagebox.showerror("Hiba", f"A {asztal}. asztalhoz nem lett étel kiválasztva!")
         return False, [], "1"
 
-    osszeg = FA_kiszamol_osszeg(rendelt_etelek)
+    osszeg = FA_kiszamol_osszeg(rendeltRtelek)
 
-    rendeles_objektum = {
+    rendelesObjektum = {
         "asztal": asztal,
-        "etelek": rendelt_etelek,
+        "etelek": rendeltRtelek,
         "osszeg": osszeg,
         "idopont": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-    veglegesitett_rendelesek.append(rendeles_objektum)
+    veglegesitettRendelesek.append(rendelesObjektum)
 
     messagebox.showinfo("Rendelés Lezárva",
                         f"A rendelés a {asztal}. asztalhoz sikeresen lezárva!\nÖsszeg: {osszeg} Ft")
